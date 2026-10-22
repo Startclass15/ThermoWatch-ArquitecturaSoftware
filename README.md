@@ -1,6 +1,6 @@
 # ThermoWatch — Sistema de monitoreo de temperatura
 
-Aplicación web demostrativa del patrón de diseño **Observer**, hecha con HTML, CSS y JavaScript puro. Está preparada para publicarse en **GitHub Pages**: no necesita servidor, base de datos, instalación ni claves API.
+Aplicación web demostrativa del patrón de diseño **Observer**, hecha con HTML, CSS y JavaScript puro. 
 
 ## Funcionalidades
 
