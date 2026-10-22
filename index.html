@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Sistema de monitoreo de temperatura que demuestra el patrón de diseño Observer.">
+  <title>ThermoWatch | Patrón Observer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="ThermoWatch inicio">
+        <span class="brand-mark">°</span>
+        <span><strong>ThermoWatch</strong><small>MONITOREO INTELIGENTE</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="live-dot"></span><span class="live-label">Sistema en línea</span>
+        <button id="themeButton" class="icon-button" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> DEMOSTRACIÓN ACADÉMICA · PATRÓN DE DISEÑO</div>
+          <h1>Monitoreo de <span>temperatura</span></h1>
+          <p class="intro-copy">Observa cómo un cambio en el sensor notifica automáticamente a distintos componentes suscritos, sin que el sensor conozca sus detalles internos.</p>
+          <div class="intro-tags"><span>Observer</span><span>JavaScript</span><span>GitHub Pages</span></div>
+        </div>
+        <div class="intro-symbol" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="thermo">🌡️</div><span class="orbit-dot dot-a"></span><span class="orbit-dot dot-b"></span><span class="orbit-dot dot-c"></span>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel temperature-panel">
+          <div class="panel-heading"><div><span class="section-kicker">LECTURA ACTUAL</span><h2>Sensor principal</h2></div><span id="statusPill" class="status-pill normal"><span></span> Normal</span></div>
+          <div class="temp-reading"><span id="temperatureValue">24.0</span><span class="degree">°C</span></div>
+          <p id="temperatureMessage" class="temp-message">Temperatura dentro del rango esperado.</p>
+          <div class="meter"><div id="meterFill" class="meter-fill"></div></div>
+          <div class="meter-labels"><span>0 °C</span><span>50 °C</span></div>
+          <div class="control-block">
+            <div class="control-label"><label for="temperatureRange">Simular nueva temperatura</label><strong><span id="rangeValue">24</span> °C</strong></div>
+            <input id="temperatureRange" type="range" min="0" max="50" value="24" step="1">
+            <div class="quick-values"><button data-temp="18">18 °C</button><button data-temp="24">24 °C</button><button data-temp="31">31 °C</button><button data-temp="38">38 °C</button></div>
+            <button id="applyTemperature" class="primary-button">Actualizar sensor <span>→</span></button>
+          </div>
+        </article>
+
+        <article class="panel summary-panel">
+          <div class="panel-heading"><div><span class="section-kicker">ACTIVIDAD DEL SISTEMA</span><h2>Resumen</h2></div><span class="summary-icon">⌁</span></div>
+          <div class="stat-grid">
+            <div class="stat-card"><span>Notificaciones</span><strong id="notificationCount">0</strong><small>Eventos emitidos</small></div>
+            <div class="stat-card"><span>Observadores activos</span><strong id="observerCount">3</strong><small>Suscripciones actuales</small></div>
+            <div class="stat-card"><span>Alertas altas</span><strong id="alertCount">0</strong><small>Temperatura mayor a 30 °C</small></div>
+            <div class="stat-card"><span>Última actualización</span><strong id="lastUpdate" class="last-update">—</strong><small>Hora local del navegador</small></div>
+          </div>
+          <div class="pattern-note"><span class="note-icon">✦</span><div><strong>¿Dónde está Observer?</strong><p>El sensor publica el cambio. Cada observador suscrito ejecuta su propia acción: actualizar la pantalla, comprobar alertas o guardar el historial.</p></div></div>
+        </article>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading"><div><span class="section-kicker">PATRÓN EN ACCIÓN</span><h2>Observadores suscritos</h2><p>Activa o cancela una suscripción y comprueba qué componentes reciben los próximos eventos.</p></div><span class="counter-badge"><span id="activeObserverBadge">3</span> activos</span></div>
+        <div class="observer-grid">
+          <article class="observer-card" data-observer-card="display">
+            <div class="observer-card-top"><div class="observer-icon icon-screen">▤</div><span id="displayState" class="subscription active">SUSCRITO</span></div>
+            <h3>Observador visual</h3><p>Actualiza la lectura que aparece en el panel.</p>
+            <div class="observer-result"><span>Último valor recibido</span><strong id="displayResult">24.0 °C</strong></div>
+            <button class="subscription-button" data-toggle-observer="display">Cancelar suscripción</button>
+          </article>
+          <article class="observer-card" data-observer-card="alerts">
+            <div class="observer-card-top"><div class="observer-icon icon-alert">♢</div><span id="alertsState" class="subscription active">SUSCRITO</span></div>
+            <h3>Observador de alertas</h3><p>Genera una alerta cuando la temperatura supera 30 °C.</p>
+            <div class="observer-result"><span>Estado de alerta</span><strong id="alertsResult">Sin alertas</strong></div>
+            <button class="subscription-button" data-toggle-observer="alerts">Cancelar suscripción</button>
+          </article>
+          <article class="observer-card" data-observer-card="history">
+            <div class="observer-card-top"><div class="observer-icon icon-history">↻</div><span id="historyState" class="subscription active">SUSCRITO</span></div>
+            <h3>Observador de historial</h3><p>Guarda cada temperatura que recibe.</p>
+            <div class="observer-result"><span>Registros guardados</span><strong id="historyResult">1 evento</strong></div>
+            <button class="subscription-button" data-toggle-observer="history">Cancelar suscripción</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel history-panel">
+          <div class="panel-heading"><div><span class="section-kicker">REGISTRO DE EVENTOS</span><h2>Historial de temperatura</h2></div><button id="clearHistory" class="text-button">Limpiar</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Hora</th><th>Temperatura</th><th>Estado</th><th>Evento</th></tr></thead><tbody id="historyTable"><tr class="empty-row"><td colspan="4">Aún no hay eventos registrados.</td></tr></tbody></table></div>
+        </article>
+        <article class="panel explanation-panel">
+          <div class="panel-heading"><div><span class="section-kicker">FLUJO DE COMUNICACIÓN</span><h2>¿Cómo funciona?</h2></div></div>
+          <ol class="steps">
+            <li><span>01</span><div><strong>Suscripción</strong><p>Los observadores se registran en el sensor.</p></div></li>
+            <li><span>02</span><div><strong>Cambio de estado</strong><p>El usuario modifica la temperatura simulada.</p></div></li>
+            <li><span>03</span><div><strong>Notificación</strong><p>El sensor comunica el nuevo valor a sus suscriptores activos.</p></div></li>
+            <li><span>04</span><div><strong>Respuesta independiente</strong><p>Cada observador ejecuta su propia lógica.</p></div></li>
+          </ol>
+          <div class="disclaimer">Demo académica: la temperatura se simula desde el navegador; no representa una medición física real.</div>
+        </article>
+      </section>
+      <section class="code-panel">
+        <div><span class="section-kicker">CONCEPTO CLAVE</span><h2>El sujeto no depende de las clases concretas</h2><p>El sensor conoce el contrato de notificación, no las tareas particulares de cada observador. Puedes agregar nuevas reacciones sin modificar la lógica principal del sensor.</p></div>
+        <div class="code-snippet"><div class="code-header"><span></span><span></span><span></span><small>observer.js · idea simplificada</small></div><pre><code><span class="code-purple">class</span> <span class="code-blue">Sensor</span> {
+  suscribir(observador) { ... }
+  cancelar(observador) { ... }
+  notificar(temperatura) {
+    <span class="code-purple">this</span>.observadores.forEach(
+      observador =&gt; observador.actualizar(temperatura)
+    );
+  }
+}</code></pre></div>
+      </section>
+    </main>
+    <footer><div class="footer-brand">ThermoWatch <span>·</span> Patrón Observer</div><p>Arquitectura de Software</p><button id="resetDemo" class="text-button">Reiniciar demostración ↺</button></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
